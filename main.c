@@ -3,10 +3,7 @@
 
 int main(){
     printf("La vida es bella\n");
-    return(EXIT_SUCCESS);
-}
-int main(){
-    printf("El feo es uno\n");
+    printf("El feo es uno");
     return(EXIT_SUCCESS);
 }
 
