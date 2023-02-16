@@ -1,9 +1,5 @@
 import numpy as np
 
-def err(t,exp):
-    err=abs((t-exp)/t)
-    return err
-
 # N=int(input("Ingrese el tamaño de la Matriz Cuadrada: "))
 # A=np.random.randint(0,21,size=(N,N))
 A=np.array([[3,-1,4],[-5,0,2],[1,-2,6]])
