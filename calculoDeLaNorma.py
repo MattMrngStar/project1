@@ -15,16 +15,16 @@ N=3
 Suma1=np.zeros(N)
 Sumai=np.zeros(N)
 for i in range(0,N,1):
-    suma1=0
+    sumai=0
     for j in range(0,N,1):
-        suma1=suma1+abs(A[i,j])
-    Suma1[i]=suma1
+        sumai=sumai+abs(A[i,j])
+    Sumai[i]=sumai
 
 for j in range(0,N,1):
-    sumai=0
+    suma1=0
     for i in range(0,N,1):
-        sumai=sumai+abs(A[i,j])
-    Sumai[j]=sumai
+        suma1=suma1+abs(A[i,j])
+    Suma1[j]=suma1
 
 sumaf2=0
 for j in range(0,N,1):
