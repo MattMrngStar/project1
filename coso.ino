@@ -1,16 +1,16 @@
-void Verifypassword(int *recievedPassword, int *expectedPassword, bool passwordState)
+void Verifypassword(int *recievedPassword, int *expectedPassword, bool *passwordState)
 {
 
 for (int i = 0; i < 7; i++)
 {
   if(recievedPassword[i] == expectedPassword[i])
   {
-    passwordState = true;
+    *passwordState = true;
  
   }
   else
   {
-    passwordState = false;
+    *passwordState = false;
     return;
   }
 }
@@ -21,12 +21,13 @@ void task0(){
 
 enum class Task0States
  {
+  INIT,
   CONFIG, 
   ARMED,
   BOOM,
 
 };
-static Task0States task0State = Task0States::CONFIG;
+static Task0States task0State = Task0States::INIT;
 static int TimeStart = 20;
 static int Time = 0;
 static int password[7];
@@ -34,9 +35,16 @@ static int position = 0;
 
 switch (task0State)
  {
+    case Task0States::INIT:
+    { 
+      Serial.begin();
+      task0State = Task0States::CONFIG;
+      Serial.print("CONFIG");
+      break;
+    }
     case Task0States::CONFIG:
     {
-     Serial.print("CONFIG");
+     
      if (Serial.available() > 0)
      { 
        int x = Serial.read();
@@ -53,6 +61,7 @@ switch (task0State)
         }
        else if(x == 'a')
         { 
+          Serial.print("ARMED");
          task0State = Task0States::ARMED;
          Time = millis();
         }
@@ -66,7 +75,7 @@ switch (task0State)
       bool passwordState = false;
       
       int currentTime = millis();
-      Serial.print("ARMED");
+      
        
        if ((currentTime - Time) >= 1000)
         {
@@ -83,7 +92,7 @@ switch (task0State)
           if (position = 7)
           {
             position = 0;
-           Verifypassword(password, Correctpassword, passwordState);
+           Verifypassword(password, Correctpassword, &passwordState);
            
            if (passwordState)
            {
@@ -96,6 +105,7 @@ switch (task0State)
         if (TimeStart <= 0)
         {
           task0State = Task0States::BOOM;
+          Serial.print("BOOM");
 
         }
         break;
@@ -104,30 +114,26 @@ switch (task0State)
     case Task0States::BOOM:
     {
       int currentTime = millis();
-      Serial.print("BOOM");
+      TimeStart = 20;
       if ((currentTime - Time) >= 5000)
       {
-        task0State = Task0States::BOOM;
+        Serial.print("CONFIG");
+        task0State = Task0States::CONFIG;
       }
 
 
     }
   }
-
-
-
-
-
 }
 
 
 
-void setup() {
+void setup() { task0();
   // put your setup code here, to run once:
 
 }
 
-void loop() {
+void loop() { task0();
   // put your main code here, to run repeatedly:
 
 }
